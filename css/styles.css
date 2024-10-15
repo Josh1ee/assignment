@@ -1,0 +1,24 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.page {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.pure-g {
+    margin-bottom: 20px;
+}
+
+#deforestation-map, #rainfall-flood-chart, #flood-prone-heatmap, #economic-loss-chart, #infrastructure-map {
+    width: 100%;
+    height: 400px;
+}

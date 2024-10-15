@@ -1,0 +1,138 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Deforestation in Malaysia (2001-2023)",
+      "fontSize": 20,
+      "font": "Arial",
+      "anchor": "middle"
+    },
+    "width": "container",
+    "height": 500,
+    "projection": {"type": "equirectangular"},
+    "params": [{
+      "name": "year_selection",
+      "value": 2023,
+      "bind": {
+        "input": "range",
+        "min": 2001,
+        "max": 2023,
+        "step": 1,
+        "name": "Select Year:"
+      }
+    }],
+    "layer": [
+      {
+        "data": {
+          "url": "../data/malaysia_states.topojson",
+          "format": {"type": "topojson", "feature": "states"}
+        },
+        "mark": {
+          "type": "geoshape",
+          "fill": "lightgray",
+          "stroke": "white",
+          "strokeWidth": 1.5
+        }
+      },
+      {
+        "data": {
+          "url": "../data/malaysia_forest_deforestation.csv"
+        },
+        "transform": [
+          {"filter": "datum.year == year_selection"},
+          {
+            "lookup": "state",
+            "from": {
+              "data": {
+                "url": "../data/malaysia_states.topojson",
+                "format": {"type": "topojson", "feature": "states"}
+              },
+              "key": "properties.Name",
+              "fields": ["type", "geometry"]
+            }
+          }
+        ],
+        "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+        "encoding": {
+          "shape": {"field": "geometry", "type": "geojson"},
+          "color": {
+            "field": "forest_cover_percentage",
+            "type": "quantitative",
+            "title": "Forest Cover (%)",
+            "scale": {
+              "scheme": "greens",
+              "domain": [0, 100]
+            },
+            "legend": {
+              "format": ".0f",
+              "title": "Forest Cover (%)",
+              "titleFontSize": 12,
+              "labelFontSize": 11
+            }
+          },
+          "tooltip": [
+            {"field": "state", "type": "nominal", "title": "State"},
+            {"field": "forest_cover_percentage", "type": "quantitative", "title": "Forest Cover (%)", "format": ".1f"},
+            {"field": "deforestation_rate", "type": "quantitative", "title": "Deforestation Rate (%)", "format": ".2f"}
+          ]
+        }
+      },
+      {
+        "data": {
+          "values": [
+            {"state": "Perlis", "x": 100.2, "y": 6.5, "align": "left", "dx": 10},
+            {"state": "Kedah", "x": 100.5, "y": 6, "align": "left", "dx": 5},
+            {"state": "Penang", "x": 100.3, "y": 5.4, "align": "left", "dx": 10},
+            {"state": "Kelantan", "x": 102, "y": 5.5, "align": "middle"},
+            {"state": "Terengganu", "x": 103, "y": 5, "align": "middle"},
+            {"state": "Perak", "x": 101, "y": 4.5, "align": "middle"},
+            {"state": "Pahang", "x": 103, "y": 4, "align": "middle"},
+            {"state": "Selangor", "x": 101.5, "y": 3.2, "align": "left", "dx": 15},
+            {"state": "Negeri Sembilan", "x": 102, "y": 2.7, "align": "left", "dx": 10},
+            {"state": "Melaka", "x": 102.2, "y": 2.2, "align": "left", "dx": 10},
+            {"state": "Johor", "x": 103.5, "y": 2, "align": "middle"},
+            {"state": "Sarawak", "x": 113, "y": 2.5, "align": "middle"},
+            {"state": "Sabah", "x": 116.5, "y": 5.5, "align": "middle"}
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "fontSize": 10,
+          "font": "Arial",
+          "fontWeight": "bold"
+        },
+        "encoding": {
+          "longitude": {"field": "x", "type": "quantitative"},
+          "latitude": {"field": "y", "type": "quantitative"},
+          "text": {"field": "state", "type": "nominal"},
+          "align": {"field": "align", "type": "nominal"},
+          "dx": {"field": "dx", "type": "quantitative"}
+        }
+      },
+      {
+        "data": {
+          "values": [
+            {"x": 101.7, "y": 3.15, "text": "KL: Extreme deforestation"}
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "fontSize": 8,
+          "font": "Arial",
+          "fontStyle": "italic",
+          "color": "red"
+        },
+        "encoding": {
+          "longitude": {"field": "x", "type": "quantitative"},
+          "latitude": {"field": "y", "type": "quantitative"},
+          "text": {"field": "text", "type": "nominal"}
+        }
+      }
+    ],
+    "config": {
+      "style": {
+        "cell": {
+          "stroke": "transparent"
+        }
+      }
+    }
+  }
