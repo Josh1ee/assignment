@@ -1,0 +1,91 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": {
+      "text": "Correlation between Deforestation, Rainfall, and Flood Occurrences - 2001 to 2010",
+      "fontSize": 18,
+      "font": "Arial",
+      "fontWeight": "bold",
+      "subtitle": [
+        "",
+        "This visualization showcases the complex relationship between deforestation, rainfall, and flood occurrences across Malaysian states from 2001 to 2010",
+        "While we might expect higher deforestation rates to correlate with more floods, the relationship isn't always direct", 
+        "Factors like local topography, infrastructure, and land use policies also play crucial roles", 
+        "This complexity highlights the need for nuanced multi-factor analyses in environmental science and policy-making"
+      ],
+      "subtitleFontStyle": "italic",
+      "subtitleFontSize": 12,
+      "subtitleColor": "black"
+    },
+    "width": "container",
+    "height": 500,
+    "data": {"url": "data/cleaned_combined_deforestation_flood.csv"},
+    "params": [
+      {
+        "name": "state_selection",
+        "bind": {
+          "input": "select",
+          "options": [null, "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Sabah", "Sarawak", "Terengganu"],
+          "labels": ["All States", "Johor", "Kedah", "Kelantan", "Melaka", "Negeri Sembilan", "Pahang", "Perak", "Perlis", "Sabah", "Sarawak", "Terengganu"],
+          "name": "Select State"
+        }
+      }
+    ],
+    "transform": [
+      {"filter": "datum.YEAR >= 2001 && datum.YEAR <= 2010"},
+      {"filter": "state_selection == null || datum.STATE == state_selection"},
+      {
+        "calculate": "pow((datum.TOTAL_RAINFALL - 1000) / 3000, 4)",
+        "as": "normalized_rainfall"
+      }
+    ],
+    "mark": {"type": "circle", "opacity": 0.7},
+    "encoding": {
+      "x": {
+        "field": "deforestation_rate",
+        "type": "quantitative",
+        "title": "Deforestation Rate (%)",
+        "scale": {"domain": [0, 4]}
+      },
+      "y": {
+        "field": "flood_occurrences",
+        "type": "quantitative",
+        "title": "Flood Occurrences",
+        "scale": {"domain": [0, 12]}
+      },
+      "size": {
+        "field": "TOTAL_RAINFALL",
+        "type": "quantitative",
+        "title": "Total Annual Rainfall (mm)",
+        "scale": {
+          "type": "pow",
+          "exponent": 4,
+          "domain": [1000, 4000],
+          "range": [50, 1500]
+        }
+      },
+      "color": {
+        "field": "STATE",
+        "type": "nominal",
+        "title": "State"
+      },
+      "tooltip": [
+        {"field": "STATE", "type": "nominal", "title": "State"},
+        {"field": "YEAR", "type": "ordinal", "title": "Year"},
+        {"field": "deforestation_rate", "type": "quantitative", "format": ".2f", "title": "Deforestation Rate (%)"},
+        {"field": "flood_occurrences", "type": "quantitative", "title": "Flood Occurrences"},
+        {"field": "TOTAL_RAINFALL", "type": "quantitative", "format": ".0f", "title": "Total Annual Rainfall (mm)"}
+      ]
+    },
+    "config": {
+      "view": {"stroke": null},
+      "axis": {
+        "labelFont": "Arial",
+        "labelFontSize": 10,
+        "titleFont": "Arial",
+        "titleFontSize": 12,
+        "titleFontWeight": "bold",
+        "labelColor": "black",
+        "titleColor": "black"
+      }
+    }
+  }

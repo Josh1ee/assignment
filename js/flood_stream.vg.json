@@ -1,0 +1,99 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Cumulative Flood Occurrences by State - 2001 to 2010",
+    "fontSize": 18,
+    "font": "Arial",
+    "fontWeight": "bold",
+    "subtitle": [
+      "",
+      "The following illustrates the cumulative flood occurrences by state over time, it helps identify which states are more prone to flooding.",
+      "It also shows how the flood occurrences accumulate over the years, demonstrating correlation with the increase in deforestation depicted above"
+    ],
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 12,
+    "subtitleColor": "black"
+  },
+  "width": "container",
+  "height": 450,
+  "padding": {"left": 3, "right": 3, "top": 3, "bottom": 3},
+  "data": {"url": "data/Flood_Prone_Heatmap.csv"},
+  "transform": [
+    {"filter": "datum.YEAR >= 2001 && datum.YEAR <= 2010"},
+    {
+      "aggregate": [{"op": "sum", "field": "FLOOD", "as": "flood_count"}],
+      "groupby": ["STATE", "YEAR"]
+    },
+    {
+      "window": [{"op": "sum", "field": "flood_count", "as": "cumulative_floods"}],
+      "sort": [{"field": "YEAR"}],
+      "groupby": ["STATE"]
+    },
+    {
+      "lookup": "STATE",
+      "from": {
+        "data": {
+          "values": [
+            {"STATE": 108, "state_name": "Perak"},
+            {"STATE": 109, "state_name": "Perlis"},
+            {"STATE": 102, "state_name": "Kedah"},
+            {"STATE": 106, "state_name": "Melaka"},
+            {"STATE": 113, "state_name": "Sarawak"},
+            {"STATE": 105, "state_name": "Negeri Sembilan"},
+            {"STATE": 104, "state_name": "Pahang"},
+            {"STATE": 101, "state_name": "Johor"},
+            {"STATE": 111, "state_name": "Terengganu"},
+            {"STATE": 103, "state_name": "Kelantan"},
+            {"STATE": 112, "state_name": "Sabah"}
+          ]
+        },
+        "key": "STATE",
+        "fields": ["state_name"]
+      }
+    }
+  ],
+  "mark": "area",
+  "encoding": {
+    "x": {
+      "field": "YEAR",
+      "type": "ordinal",
+      "title": "Year"
+    },
+    "y": {
+      "field": "cumulative_floods",
+      "type": "quantitative",
+      "title": "Cumulative Flood Occurrences",
+      "stack": "zero"
+    },
+    "color": {
+      "field": "state_name",
+      "type": "nominal",
+      "scale": {"scheme": "category20"},
+      "title": "State"
+    },
+    "tooltip": [
+      {"field": "state_name", "type": "nominal", "title": "State"},
+      {"field": "YEAR", "type": "ordinal", "title": "Year"},
+      {"field": "cumulative_floods", "type": "quantitative", "title": "Cumulative Flood Occurrences"}
+    ]
+  },
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "Arial",
+      "labelFontSize": 10,
+      "titleFont": "Arial",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelColor": "black",
+      "titleColor": "black"
+    },
+    "legend": {
+      "labelFont": "Arial",
+      "labelFontSize": 10,
+      "titleFont": "Arial",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold"
+    }
+  }
+}

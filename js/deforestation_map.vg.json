@@ -1,14 +1,9 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "title": {
-      "text": "Deforestation in Malaysia (2001-2023)",
-      "fontSize": 20,
-      "font": "Arial",
-      "anchor": "middle"
-    },
     "width": "container",
-    "height": 500,
-    "projection": {"type": "equirectangular"},
+    "height": 450,
+    "padding": {"left": 10, "right": 10, "top": 10, "bottom": 10},
+    "projection": {"type": "equirectangular", "center": [109, 4], "scale": 3700},
     "params": [{
       "name": "year_selection",
       "value": 2023,
@@ -26,12 +21,7 @@
           "url": "../data/malaysia_states.topojson",
           "format": {"type": "topojson", "feature": "states"}
         },
-        "mark": {
-          "type": "geoshape",
-          "fill": "lightgray",
-          "stroke": "white",
-          "strokeWidth": 1.5
-        }
+        "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white", "strokeWidth": 1}
       },
       {
         "data": {
@@ -63,10 +53,10 @@
               "domain": [0, 100]
             },
             "legend": {
-              "format": ".0f",
-              "title": "Forest Cover (%)",
-              "titleFontSize": 12,
-              "labelFontSize": 11
+              "orient": "top-right",
+              "direction": "vertical",
+              "gradientLength": 200,
+              "offset": 10
             }
           },
           "tooltip": [
@@ -79,39 +69,80 @@
       {
         "data": {
           "values": [
-            {"state": "Perlis", "x": 100.2, "y": 6.5, "align": "left", "dx": 10},
-            {"state": "Kedah", "x": 100.5, "y": 6, "align": "left", "dx": 5},
-            {"state": "Penang", "x": 100.3, "y": 5.4, "align": "left", "dx": 10},
-            {"state": "Kelantan", "x": 102, "y": 5.5, "align": "middle"},
-            {"state": "Terengganu", "x": 103, "y": 5, "align": "middle"},
-            {"state": "Perak", "x": 101, "y": 4.5, "align": "middle"},
-            {"state": "Pahang", "x": 103, "y": 4, "align": "middle"},
-            {"state": "Selangor", "x": 101.5, "y": 3.2, "align": "left", "dx": 15},
-            {"state": "Negeri Sembilan", "x": 102, "y": 2.7, "align": "left", "dx": 10},
-            {"state": "Melaka", "x": 102.2, "y": 2.2, "align": "left", "dx": 10},
-            {"state": "Johor", "x": 103.5, "y": 2, "align": "middle"},
-            {"state": "Sarawak", "x": 113, "y": 2.5, "align": "middle"},
-            {"state": "Sabah", "x": 116.5, "y": 5.5, "align": "middle"}
+            {"state": "Perlis", "x": 100.25, "y": 6.5},
+            {"state": "Kedah", "x": 100.55, "y": 6},
+            {"state": "Penang", "x": 100.35, "y": 5.4},
+            {"state": "Kelantan", "x": 102, "y": 5.5},
+            {"state": "Terengganu", "x": 103, "y": 5},
+            {"state": "Perak", "x": 101, "y": 4.5},
+            {"state": "Pahang", "x": 102.5, "y": 3.8},
+            {"state": "Selangor", "x": 101.3, "y": 3.1},
+            {"state": "Negeri Sembilan", "x": 102.05, "y": 2.7},
+            {"state": "Melaka", "x": 102.25, "y": 2.2},
+            {"state": "Johor", "x": 103.5, "y": 2},
+            {"state": "Sarawak", "x": 110.5, "y": 2.5},
+            {"state": "Sabah", "x": 114.2, "y": 5.5}
           ]
         },
-        "mark": {
-          "type": "text",
-          "fontSize": 10,
-          "font": "Arial",
-          "fontWeight": "bold"
-        },
+        "mark": {"type": "text", "fontSize": 10, "font": "Arial", "fontWeight": "bold"},
         "encoding": {
           "longitude": {"field": "x", "type": "quantitative"},
           "latitude": {"field": "y", "type": "quantitative"},
-          "text": {"field": "state", "type": "nominal"},
-          "align": {"field": "align", "type": "nominal"},
-          "dx": {"field": "dx", "type": "quantitative"}
+          "text": {"field": "state", "type": "nominal"}
         }
       },
       {
         "data": {
           "values": [
-            {"x": 101.7, "y": 3.15, "text": "KL: Extreme deforestation"}
+            {"x": 101.7, "y": 3.25, "text": "KL: Extreme deforestation"}
+          ]
+        },
+        "layer": [
+          {
+            "mark": {"type": "point", "color": "red", "size": 60, "shape": "triangle-down"}
+          },
+          {
+            "mark": {
+              "type": "text",
+              "fontSize": 10,
+              "font": "Arial",
+              "fontStyle": "italic",
+              "color": "red",
+              "dx": 15,
+              "dy": -10
+            },
+            "encoding": {"text": {"field": "text", "type": "nominal"}}
+          }
+        ],
+        "encoding": {
+          "longitude": {"field": "x", "type": "quantitative"},
+          "latitude": {"field": "y", "type": "quantitative"}
+        }
+      },
+      {
+        "data": {
+          "values": [
+            {"x": 104.3, "y": 6, "text": "As you slide through the years, observe the changing shades of green. \nThis visualization reveals the gradual loss of forest cover across Malaysia,\n a critical factor linked to floods. \n\nThe lightening hues represent areas where trees are disappearing, \nsetting the stage for our exploration of how \ndeforestation impacts flood occurrences."}
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "align": "left",
+          "fontSize": 12,
+          "font": "Arial",
+          "fontStyle": "italic",
+          "lineBreak": "\n",
+          "width": 200
+        },
+        "encoding": {
+          "longitude": {"field": "x", "type": "quantitative"},
+          "latitude": {"field": "y", "type": "quantitative"},
+          "text": {"field": "text", "type": "nominal"}
+        }
+      },
+      {
+        "data": {
+          "values": [
           ]
         },
         "mark": {
@@ -119,7 +150,25 @@
           "fontSize": 8,
           "font": "Arial",
           "fontStyle": "italic",
-          "color": "red"
+          "lineBreak": "\n",
+          "align": "right"
+        },
+        "encoding": {
+          "longitude": {"field": "x", "type": "quantitative"},
+          "latitude": {"field": "y", "type": "quantitative"},
+          "text": {"field": "text", "type": "nominal"}
+        }
+      },
+      {
+        "data": {
+          "values": [
+          ]
+        },
+        "mark": {
+          "type": "text",
+          "fontSize": 18,
+          "font": "Arial",
+          "fontWeight": "bold"
         },
         "encoding": {
           "longitude": {"field": "x", "type": "quantitative"},
@@ -127,12 +176,5 @@
           "text": {"field": "text", "type": "nominal"}
         }
       }
-    ],
-    "config": {
-      "style": {
-        "cell": {
-          "stroke": "transparent"
-        }
-      }
-    }
+    ]
   }

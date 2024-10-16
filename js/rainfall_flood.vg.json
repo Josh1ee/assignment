@@ -1,0 +1,75 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": {
+    "text": "Rainfall and Flood Occurrences - 2001 to 2010",
+    "fontSize": 18,
+    "subtitle": [
+      "",
+      "This visualization shows how increasing rainfall over the years correlates with the rise in flood events", 
+      "As the bars rise higher, the likelihood of floods becomes more evident.",
+      "",
+      "[Light Blue] Flood Occurrences   [Dark Blue] Average Annual Rainfall (mm)"
+    ],
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 12,
+    "subtitleColor": "black"
+  },
+  "width": "container",
+  "height": 450,
+  "data": {
+    "url": "../data/Rainfall_Flood_Line_Chart.csv"
+  },
+  "transform": [
+    {"filter": "datum.YEAR != 2000"},
+    {
+      "aggregate": [
+        {"op": "mean", "field": "ANNUAL RAINFALL", "as": "avg_rainfall"},
+        {"op": "sum", "field": "FLOOD", "as": "flood_count"}
+      ],
+      "groupby": ["YEAR"]
+    }
+  ],
+  "layer": [
+    {
+      "mark": {"type": "bar", "opacity": 0.7},
+      "encoding": {
+        "x": {"field": "YEAR", "type": "ordinal", "title": "Year"},
+        "y": {"field": "flood_count", "type": "quantitative", "title": "Flood Occurrences"},
+        "color": {"value": "#ADD8E6"}
+      }
+    },
+    {
+      "mark": {"type": "line", "point": true},
+      "encoding": {
+        "x": {"field": "YEAR", "type": "ordinal"},
+        "y": {
+          "field": "avg_rainfall",
+          "type": "quantitative",
+          "title": "Average Annual Rainfall (mm)",
+          "scale": {"zero": false}
+        },
+        "color": {"value": "#00008B"} 
+      }
+    }
+  ],
+  "encoding": {
+    "tooltip": [
+      {"field": "YEAR", "type": "ordinal", "title": "Year"},
+      {"field": "flood_count", "type": "quantitative", "title": "Flood Occurrences"},
+      {"field": "avg_rainfall", "type": "quantitative", "title": "Avg. Annual Rainfall (mm)", "format": ".2f"}
+    ]
+  },
+  "resolve": {"scale": {"y": "independent"}},
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "labelFont": "Arial",
+      "labelFontSize": 10,
+      "titleFont": "Arial",
+      "titleFontSize": 12,
+      "titleFontWeight": "bold",
+      "labelColor": "black",
+      "titleColor": "black"
+    }
+  }
+}

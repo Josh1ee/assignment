@@ -1,16 +1,50 @@
 import pandas as pd
+import numpy as np
 
-# Corrected file path - using raw string (Option 1)
-file_path = r'C:\Users\Josh\Documents\FIT3179\A2\data\malaysia_forest_deforestation.csv'
+# Read the CSV file
+df = pd.read_csv('data/combined_deforestation_flood.csv')
 
-# Alternatively, use forward slashes (Option 2)
-# file_path = 'C:/Users/Josh/Documents/FIT3179/A2/data/malaysia_forest_deforestation.csv'
+# Convert YEAR to integer, replacing NaN with a placeholder value
+df['YEAR'] = pd.to_numeric(df['YEAR'], errors='coerce').fillna(0).astype(int)
 
-# Load the CSV file
-df = pd.read_csv(file_path)
+# Ensure numerical columns are float
+numerical_columns = ['forest_cover_percentage', 'deforestation_rate', 'flood_occurrences', 'TOTAL_RAINFALL', 'ANNUAL RAINFALL']
+for col in numerical_columns:
+    df[col] = pd.to_numeric(df[col], errors='coerce')
 
-# Get the unique state names
-unique_states = df['state'].unique().tolist()
+# Convert boolean column to lowercase string
+df['has_flood_data'] = df['has_flood_data'].astype(str).str.lower()
 
-# Print the unique states
-print(unique_states)
+# Remove rows with missing values in critical columns
+critical_columns = ['YEAR', 'STATE', 'deforestation_rate', 'flood_occurrences', 'TOTAL_RAINFALL']
+df = df.dropna(subset=critical_columns)
+
+# Print summary statistics
+print(df.describe())
+
+# Print unique values in categorical columns
+print("\nUnique values in STATE column:")
+print(df['STATE'].unique())
+
+print("\nUnique values in has_flood_data column:")
+print(df['has_flood_data'].unique())
+
+# Print rows where YEAR is 0 (was originally NaN)
+print("\nRows with YEAR as 0 (originally NaN):")
+print(df[df['YEAR'] == 0])
+
+# Save the cleaned CSV
+df.to_csv('data/cleaned_combined_deforestation_flood.csv', index=False)
+
+print("\nCleaned CSV saved. Row count:", len(df))
+
+# Additional data quality checks
+print("\nColumn-wise null count:")
+print(df.isnull().sum())
+
+print("\nData types of columns:")
+print(df.dtypes)
+
+print("\nValue ranges for numerical columns:")
+for col in numerical_columns + ['YEAR']:
+    print(f"{col}: {df[col].min()} to {df[col].max()}")
