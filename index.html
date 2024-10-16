@@ -64,8 +64,11 @@
 
     <!-- Embed Deforestation Map -->
     <script>
-        vegaEmbed('#deforestation-map', 'js/deforestation_map.vg.json').then(function(result) {
-        }).catch(console.error);
+        vegaEmbed('#deforestation-map', '/js/deforestation_map.vg.json').then(function(result) {
+        console.log('Deforestation map loaded successfully');
+    }).catch(function(error) {
+        console.error('Error loading Deforestation map:', error);
+    });
     </script>
 
     <!-- Embed Flood-Prone Stream Graph -->
@@ -79,11 +82,11 @@
 
     <!-- Embed Rainfall-Flood Line Chart -->
     <script>
-        vegaEmbed('#rainfall-flood-chart', 'js/rainfall_flood.vg.json').then(function(result) {
-            console.log('Rainfall-Flood chart loaded successfully');
-        }).catch(function(error) {
-            console.error('Error loading Rainfall-Flood chart:', error);
-        });
+        vegaEmbed('#rainfall-flood-chart', '/js/rainfall_flood.vg.json').then(function(result) {
+        console.log('Rainfall-Flood chart loaded successfully');
+    }).catch(function(error) {
+        console.error('Error loading Rainfall-Flood chart:', error);
+    });
     </script>
 
     
@@ -93,6 +96,8 @@
         vegaEmbed('#correlation-scatter-plot', 'js/correlation_scatter_plot.vg.json').then(function(result) {
         }).catch(console.error);
     </script>
+
+
     <script>
         vegaEmbed('#deforestation-map', 'js/deforestation_map.vg.json').then(function(result) {
     console.log('Deforestation map loaded successfully');
