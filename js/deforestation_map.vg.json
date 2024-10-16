@@ -18,7 +18,7 @@
     "layer": [
       {
         "data": {
-          "url": "../data/malaysia_states.topojson",
+          "url": "data/malaysia_states.topojson",
           "format": {"type": "topojson", "feature": "states"}
         },
         "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white", "strokeWidth": 1}
