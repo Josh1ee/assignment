@@ -100,16 +100,29 @@
 
     <script>
         vegaEmbed('#deforestation-map', 'js/deforestation_map.vg.json').then(function(result) {
-    console.log('Deforestation map loaded successfully');
-}).catch(function(error) {
-    console.error('Error loading Deforestation map:', error);
-});
+            console.log('Deforestation map loaded successfully');
+        }).catch(function(error) {
+            console.error('Error loading Deforestation map:', error);
+        });
 
-vegaEmbed('#rainfall-flood-chart', 'js/rainfall_flood.vg.json').then(function(result) {
-    console.log('Rainfall-Flood chart loaded successfully');
-}).catch(function(error) {
-    console.error('Error loading Rainfall-Flood chart:', error);
-});
+        vegaEmbed('#flood-stream', 'js/flood_stream.vg.json').then(function(result) {
+            console.log('Flood stream graph loaded successfully');
+        }).catch(function(error) {
+            console.error('Error loading Flood stream graph:', error);
+        });
+
+        vegaEmbed('#rainfall-flood-chart', 'js/rainfall_flood.vg.json').then(function(result) {
+            console.log('Rainfall-Flood chart loaded successfully');
+        }).catch(function(error) {
+            console.error('Error loading Rainfall-Flood chart:', error);
+        });
+
+        vegaEmbed('#correlation-scatter-plot', 'js/correlation_scatter_plot.vg.json').then(function(result) {
+            console.log('Correlation scatter plot loaded successfully');
+        }).catch(function(error) {
+            console.error('Error loading Correlation scatter plot:', error);
+        });
     </script>
+
 </body>
 </html>
