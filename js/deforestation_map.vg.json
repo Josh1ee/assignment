@@ -1,71 +1,71 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": "container",
-    "height": 450,
-    "padding": {"left": 10, "right": 10, "top": 10, "bottom": 10},
-    "projection": {"type": "equirectangular", "center": [109, 4], "scale": 3700},
-    "params": [{
-      "name": "year_selection",
-      "value": 2023,
-      "bind": {
-        "input": "range",
-        "min": 2001,
-        "max": 2023,
-        "step": 1,
-        "name": "Select Year:"
-      }
-    }],
-    "layer": [
-      {
-        "data": {
-          "url": "/data/malaysia_states.topojson",
-          "format": {"type": "topojson", "feature": "states"}
-        },
-        "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white", "strokeWidth": 1}
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 450,
+  "padding": {"left": 10, "right": 10, "top": 10, "bottom": 10},
+  "projection": {"type": "equirectangular", "center": [109, 4], "scale": 3700},
+  "params": [{
+    "name": "year_selection",
+    "value": 2023,
+    "bind": {
+      "input": "range",
+      "min": 2001,
+      "max": 2023,
+      "step": 1,
+      "name": "Select Year:"
+    }
+  }],
+  "layer": [
+    {
+      "data": {
+        "url": "data/malaysia_states.topojson",
+        "format": {"type": "topojson", "feature": "states"}
       },
-      {
-        "data": {
-          "url": "/data/malaysia_forest_deforestation.csv"
-        },
-        "transform": [
-          {"filter": "datum.year == year_selection"},
-          {
-            "lookup": "state",
-            "from": {
-              "data": {
-                "url": "/data/malaysia_states.topojson",
-                "format": {"type": "topojson", "feature": "states"}
-              },
-              "key": "properties.Name",
-              "fields": ["type", "geometry"]
-            }
-          }
-        ],
-        "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
-        "encoding": {
-          "shape": {"field": "geometry", "type": "geojson"},
-          "color": {
-            "field": "forest_cover_percentage",
-            "type": "quantitative",
-            "title": "Forest Cover (%)",
-            "scale": {
-              "scheme": "greens",
-              "domain": [0, 100]
+      "mark": {"type": "geoshape", "fill": "lightgray", "stroke": "white", "strokeWidth": 1}
+    },
+    {
+      "data": {
+        "url": "data/malaysia_forest_deforestation.csv"
+      },
+      "transform": [
+        {"filter": "datum.year == year_selection"},
+        {
+          "lookup": "state",
+          "from": {
+            "data": {
+              "url": "data/malaysia_states.topojson",
+              "format": {"type": "topojson", "feature": "states"}
             },
-            "legend": {
-              "orient": "top-right",
-              "direction": "vertical",
-              "gradientLength": 200,
-              "offset": 10
-            }
-          },
-          "tooltip": [
-            {"field": "state", "type": "nominal", "title": "State"},
-            {"field": "forest_cover_percentage", "type": "quantitative", "title": "Forest Cover (%)", "format": ".1f"},
-            {"field": "deforestation_rate", "type": "quantitative", "title": "Deforestation Rate (%)", "format": ".2f"}
-          ]
+            "key": "properties.Name",
+            "fields": ["type", "geometry"]
+          }
         }
-      },
+      ],
+      "mark": {"type": "geoshape", "stroke": "white", "strokeWidth": 1},
+      "encoding": {
+        "shape": {"field": "geometry", "type": "geojson"},
+        "color": {
+          "field": "forest_cover_percentage",
+          "type": "quantitative",
+          "title": "Forest Cover (%)",
+          "scale": {
+            "scheme": "greens",
+            "domain": [0, 100]
+          },
+          "legend": {
+            "orient": "top-right",
+            "direction": "vertical",
+            "gradientLength": 200,
+            "offset": 10
+          }
+        },
+        "tooltip": [
+          {"field": "state", "type": "nominal", "title": "State"},
+          {"field": "forest_cover_percentage", "type": "quantitative", "title": "Forest Cover (%)", "format": ".1f"},
+          {"field": "deforestation_rate", "type": "quantitative", "title": "Deforestation Rate (%)", "format": ".2f"}
+        ]
+      }
+    },
       {
         "data": {
           "values": [
