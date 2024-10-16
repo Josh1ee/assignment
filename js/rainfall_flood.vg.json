@@ -17,7 +17,7 @@
   "width": "container",
   "height": 450,
   "data": {
-    "url": "data/Rainfall_Flood_Line_Chart.csv"
+    "url": "/data/Rainfall_Flood_Line_Chart.csv"
   },
   "transform": [
     {"filter": "datum.YEAR != 2000"},
